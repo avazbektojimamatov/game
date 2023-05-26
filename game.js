@@ -162,24 +162,26 @@ class Game {
   }
 
   play(userMove) {
-    this.computerMove = this.moves[Math.floor(Math.random() * this.moves.length)]; // Генерация нового хода компьютера
+    this.computerMove = this.moves[Math.floor(Math.random() * this.moves.length)];
+    this.hmacKey = this.keyGenerator.generateKey(); 
     const hmac = this.generateHmac(this.computerMove);
-
+  
     if (!this.isMoveValid(userMove)) {
       console.log('Invalid move. Please try again.\n');
       this.showMenu(hmac);
       return;
     }
-
+  
     const result = this.moveRules.determineWinner(userMove, this.computerMove);
-
-    console.log(`HMAC: ${hmac}`);
+  
     console.log(`Your move: ${userMove}`);
     console.log(`Computer move: ${this.computerMove}`);
     console.log(result);
     console.log(`HMAC key: ${this.hmacKey}\n`);
+    console.log('--------------------------\n')
     this.showMenu(hmac);
   }
+  
 }
 
 const moves = process.argv.slice(2);
